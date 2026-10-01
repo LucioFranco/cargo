@@ -20,19 +20,19 @@ environments:
   - name: cargo-1-60-0
     setup: |
       set -e
-      curl -fsSL https://static.rust-lang.org/dist/cargo-1.60.0-x86_64-unknown-linux-gnu.tar.xz | tar -xJ -C /tmp
+      curl -fsSL https://static.rust-lang.org/dist/cargo-1.60.0-x86_64-unknown-linux-gnu.tar.gz | tar -xz -C /tmp
       /tmp/cargo-1.60.0-x86_64-unknown-linux-gnu/install.sh --prefix=$HOME/.local --components=cargo
       echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.bashrc
   - name: cargo-1-75-0
     setup: |
       set -e
-      curl -fsSL https://static.rust-lang.org/dist/cargo-1.75.0-x86_64-unknown-linux-gnu.tar.xz | tar -xJ -C /tmp
+      curl -fsSL https://static.rust-lang.org/dist/cargo-1.75.0-x86_64-unknown-linux-gnu.tar.gz | tar -xz -C /tmp
       /tmp/cargo-1.75.0-x86_64-unknown-linux-gnu/install.sh --prefix=$HOME/.local --components=cargo
       echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.bashrc
   - name: cargo-1-90-0
     setup: |
       set -e
-      curl -fsSL https://static.rust-lang.org/dist/cargo-1.90.0-x86_64-unknown-linux-gnu.tar.xz | tar -xJ -C /tmp
+      curl -fsSL https://static.rust-lang.org/dist/cargo-1.90.0-x86_64-unknown-linux-gnu.tar.gz | tar -xz -C /tmp
       /tmp/cargo-1.90.0-x86_64-unknown-linux-gnu/install.sh --prefix=$HOME/.local --components=cargo
       echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.bashrc
 tests:
