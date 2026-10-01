@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://docs.514.ax/schema/experiment.v2.schema.yaml
+schema_version: 2
+id: cargo-help
+name: "cargo help across versions"
+description: |
+  Download prebuilt cargo releases (no compiling) and check whether an agent can
+  find the `--timings` flag via `cargo build --help` in each version.
+agents: [claude]
+models:
+  - name: claude-sonnet-4-6
+    effort: low
+prompts:
+  - id: find-flag
+    prompt: |
+      A prebuilt `cargo` is installed on PATH. Using only `cargo` help output
+      (`cargo help`, `cargo build --help`, etc.), find out which flags `cargo build`
+      supports for timing information and write the exact flag names, one per line,
+      to /tmp/answer.txt. Do not install or compile anything.
+environments:
+  - name: cargo-1-60-0
+    setup: |
+      set -e
+      curl -fsSL https://static.rust-lang.org/dist/cargo-1.60.0-x86_64-unknown-linux-gnu.tar.xz | tar -xJ -C /tmp
+      /tmp/cargo-1.60.0-x86_64-unknown-linux-gnu/install.sh --prefix=$HOME/.local --components=cargo
+      echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.bashrc
+  - name: cargo-1-75-0
+    setup: |
+      set -e
+      curl -fsSL https://static.rust-lang.org/dist/cargo-1.75.0-x86_64-unknown-linux-gnu.tar.xz | tar -xJ -C /tmp
+      /tmp/cargo-1.75.0-x86_64-unknown-linux-gnu/install.sh --prefix=$HOME/.local --components=cargo
+      echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.bashrc
+  - name: cargo-1-90-0
+    setup: |
+      set -e
+      curl -fsSL https://static.rust-lang.org/dist/cargo-1.90.0-x86_64-unknown-linux-gnu.tar.xz | tar -xJ -C /tmp
+      /tmp/cargo-1.90.0-x86_64-unknown-linux-gnu/install.sh --prefix=$HOME/.local --components=cargo
+      echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.bashrc
+tests:
+  - name: answer-mentions-timings
+    script: |
+      grep -q -- '--timings' /tmp/answer.txt
+limits:
+  max_time_seconds: 300
